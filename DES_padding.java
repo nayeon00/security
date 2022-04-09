@@ -1,9 +1,9 @@
 /*
  * DES/ECB/NoPadding
- * Zero padding, ANSI X9.23, PKCS#5 ÇÑ¹ø¿¡ Ãâ·Â
- * Å° : [01 23 45 67 89 AB CD EF] À¸·Î °íÁ¤
- * ¿¹½Ã1) Æò¹® : "Now is the time for"
- * ¿¹½Ã2) Æò¹® : "Now is the time for jump"
+ * Zero padding, ANSI X9.23, PKCS#5 í•œë²ˆì— ì¶œë ¥
+ * í‚¤ : [01 23 45 67 89 AB CD EF] ìœ¼ë¡œ ê³ ì •
+ * ì˜ˆì‹œ1) í‰ë¬¸ : "Now is the time for"
+ * ì˜ˆì‹œ2) í‰ë¬¸ : "Now is the time for jump"
  * */
 
 import javax.crypto.Cipher;
@@ -15,7 +15,7 @@ public class DES {
 
 	public static SecretKey key;
 	
-	// DES ¾ÏÈ£È­
+	// DES ì•”í˜¸í™”
 	public static byte[] DES_encrypt(byte[] plainToByte) throws Exception {
 	
 		Cipher cipher = Cipher.getInstance("DES/ECB/NoPadding"); // No padding
@@ -23,7 +23,7 @@ public class DES {
 	
 		byte[] encryptedByte = cipher.doFinal(plainToByte);
 		
-		return encryptedByte; // byte·Î ¸®ÅÏ
+		return encryptedByte; // byteë¡œ ë¦¬í„´
 	}
 	
 	// Zero padding
@@ -32,15 +32,15 @@ public class DES {
 		
 		byte[] plainToByte = data.getBytes();
 		int len = plainToByte.length;
-		int r = 8 - (len % 8); // ºÎÁ·ÇÑ °ø°£
+		int r = 8 - (len % 8); // ë¶€ì¡±í•œ ê³µê°„
 		if (r == 8) r = 0;
 		
-		byte[] p = new byte[len+r]; // »õ·Î ´ãÀ» °ø°£
+		byte[] p = new byte[len+r]; // ìƒˆë¡œ ë‹´ì„ ê³µê°„
 		System.arraycopy(plainToByte, 0, p, 0, len);
-		if (r != 0) { // padding ÇÊ¿äÇÑ °æ¿ì
-			byte[] zero = new byte[r]; // ºÎÁ·ÇÑ °ø°£À» Ã¤¿ï byte¹è¿­
-			java.util.Arrays.fill(zero, (byte)0x00); // ¸¸µç ¹è¿­À» 0x00À¸·Î ÃÊ±âÈ­
-			System.arraycopy(zero, 0, p, len, r); // ±âÁ¸ÀÇ ¹è¿­¿¡ ÇÕÄ£´Ù.
+		if (r != 0) { // padding í•„ìš”í•œ ê²½ìš°
+			byte[] zero = new byte[r]; // ë¶€ì¡±í•œ ê³µê°„ì„ ì±„ìš¸ byteë°°ì—´
+			java.util.Arrays.fill(zero, (byte)0x00); // ë§Œë“  ë°°ì—´ì„ 0x00ìœ¼ë¡œ ì´ˆê¸°í™”
+			System.arraycopy(zero, 0, p, len, r); // ê¸°ì¡´ì˜ ë°°ì—´ì— í•©ì¹œë‹¤.
 		}
 		System.out.println("Zero padding : " + ByteToHex(DES_encrypt(p)));
 	}
@@ -52,14 +52,14 @@ public class DES {
 		byte[] plainToByte = data.getBytes();
 		int len = plainToByte.length;
 		
-		int r = 8 - (len % 8); // ºÎÁ·ÇÑ °ø°£, input Å©±â°¡ °°¾Æµµ paddingÀ» Ç×»ó Ãß°¡ÇÑ´Ù.
+		int r = 8 - (len % 8); // ë¶€ì¡±í•œ ê³µê°„, input í¬ê¸°ê°€ ê°™ì•„ë„ paddingì„ í•­ìƒ ì¶”ê°€í•œë‹¤.
 		
-		byte[] p = new byte[len+r]; // »õ·Î ´ãÀ» °ø°£
-		byte[] zero = new byte[r]; // ºÎÁ·ÇÑ °ø°£À» Ã¤¿ï byte¹è¿­
+		byte[] p = new byte[len+r]; // ìƒˆë¡œ ë‹´ì„ ê³µê°„
+		byte[] zero = new byte[r]; // ë¶€ì¡±í•œ ê³µê°„ì„ ì±„ìš¸ byteë°°ì—´
 		System.arraycopy(plainToByte, 0, p, 0, len);
-		java.util.Arrays.fill(zero, (byte)0x00); // ¸¸µç ¹è¿­À» 0x00À¸·Î ÃÊ±âÈ­
-		zero[zero.length-1] = (byte)(r); // ¸¶Áö¸· ¹ÙÀÌÆ®´Â padding Å©±â¸¦ ³ªÅ¸³½´Ù.
-		System.arraycopy(zero, 0, p, len, r); // ±âÁ¸ÀÇ ¹è¿­¿¡ ÇÕÄ£´Ù.
+		java.util.Arrays.fill(zero, (byte)0x00); // ë§Œë“  ë°°ì—´ì„ 0x00ìœ¼ë¡œ ì´ˆê¸°í™”
+		zero[zero.length-1] = (byte)(r); // ë§ˆì§€ë§‰ ë°”ì´íŠ¸ëŠ” padding í¬ê¸°ë¥¼ ë‚˜íƒ€ë‚¸ë‹¤.
+		System.arraycopy(zero, 0, p, len, r); // ê¸°ì¡´ì˜ ë°°ì—´ì— í•©ì¹œë‹¤.
 		
 		System.out.println("ANSI X9.23 : " + ByteToHex(DES_encrypt(p)));
 	}
@@ -71,23 +71,23 @@ public class DES {
 		byte[] plainToByte = data.getBytes();
 		int len = plainToByte.length;
 		
-		int r = 8 - (len % 8); // ºÎÁ·ÇÑ °ø°£, input Å©±â°¡ °°¾Æµµ paddingÀ» Ç×»ó Ãß°¡ÇÑ´Ù.
+		int r = 8 - (len % 8); // ë¶€ì¡±í•œ ê³µê°„, input í¬ê¸°ê°€ ê°™ì•„ë„ paddingì„ í•­ìƒ ì¶”ê°€í•œë‹¤.
 		
-		byte[] p = new byte[len+r]; // »õ·Î ´ãÀ» °ø°£
-		byte[] zero = new byte[r]; // ºÎÁ·ÇÑ °ø°£À» Ã¤¿ï byte¹è¿­À» ÇÏ³ª ¸¸µç´Ù.
+		byte[] p = new byte[len+r]; // ìƒˆë¡œ ë‹´ì„ ê³µê°„
+		byte[] zero = new byte[r]; // ë¶€ì¡±í•œ ê³µê°„ì„ ì±„ìš¸ byteë°°ì—´ì„ í•˜ë‚˜ ë§Œë“ ë‹¤.
 		System.arraycopy(plainToByte, 0, p, 0, len);
-		java.util.Arrays.fill(zero, (byte)r); // ¸¸µç ¹è¿­À» padding Å©±â·Î ÃÊ±âÈ­ ÇÑ´Ù.
-		System.arraycopy(zero, 0, p, len, r); // ±âÁ¸ÀÇ ¹è¿­¿¡ ÇÕÄ£´Ù.
+		java.util.Arrays.fill(zero, (byte)r); // ë§Œë“  ë°°ì—´ì„ padding í¬ê¸°ë¡œ ì´ˆê¸°í™” í•œë‹¤.
+		System.arraycopy(zero, 0, p, len, r); // ê¸°ì¡´ì˜ ë°°ì—´ì— í•©ì¹œë‹¤.
 		
 		System.out.println("PKCS#5 : " + ByteToHex(DES_encrypt(p)));
 		
 	}
 	
-	// byte¸¦ 16Áø¼ö·Î ¹Ù²Ù´Â ÇÔ¼ö
+	// byteë¥¼ 16ì§„ìˆ˜ë¡œ ë°”ê¾¸ëŠ” í•¨ìˆ˜
 	private static String ByteToHex(byte[] bytes) {
 		StringBuilder sb = new StringBuilder();
 		for (byte b : bytes) {
-			sb.append(String.format("%02X ", b)); // "%02X " 2ÀÚ¸® 16Áø¼ö, ¿µ¾î´Â ´ë¹®ÀÚ·Î, ¶ç¾î¾²±â
+			sb.append(String.format("%02X ", b)); // "%02X " 2ìë¦¬ 16ì§„ìˆ˜, ì˜ì–´ëŠ” ëŒ€ë¬¸ìë¡œ, ë„ì–´ì“°ê¸°
 		}
 		return sb.toString();
 	}
@@ -101,16 +101,16 @@ public class DES {
 		String plainText2 = "Now is the time for jump";
 		
 		try {
-			System.out.println("Å° : [01 23 45 67 89 AB CD EF]");
+			System.out.println("í‚¤ : [01 23 45 67 89 AB CD EF]");
 			
-			// ¿¹½Ã1) plainText1 = "Now is the time for"
-			System.out.println("\nÆò¹®1 : " + plainText1);
+			// ì˜ˆì‹œ1) plainText1 = "Now is the time for"
+			System.out.println("\ní‰ë¬¸1 : " + plainText1);
 			Zero_padding(plainText1);
 			ANSI_X9_23(plainText1);
 			PKCS5(plainText1);
 			
-			// ¿¹½Ã2) plainText2 = "Now is the time for jump"
-			System.out.println("\nÆò¹®2 : " + plainText2);
+			// ì˜ˆì‹œ2) plainText2 = "Now is the time for jump"
+			System.out.println("\ní‰ë¬¸2 : " + plainText2);
 			Zero_padding(plainText2);
 			ANSI_X9_23(plainText2);
 			PKCS5(plainText2);
